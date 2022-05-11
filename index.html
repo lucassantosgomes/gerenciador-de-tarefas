@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>gereciador de tarefas</title>
+    <link rel="stylesheet" href="./style.css" />
+    <link
+      rel="shortcut icon"
+      href="./imagens/Anotação2022-03-19121213.png"
+      type="image/x-icon"
+    />
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>Crie e gerencie suas tarefas aqui facilmente</h1>
+        <h3>click 2x sobre a tarefa para marcar como feita</h3>
+      </header>
+      <main>
+        <section>
+          <div>
+            <textarea
+              placeholder="digite e adicione clicando em um dos botoes (importante ou normal)"
+              id="write-task"
+              class="write-task"
+              spellcheck="false"
+            >
+            </textarea>
+          </div>
+          <button id="important" class="butn">importante</button>
+          <button id="normal" class="butn">normal</button>
+        </section>
+        <section id="tasks" class="tasks">
+          <div id="tasks-important" class="tasks-important">
+            <h2>importantes</h2>
+          </div>
+          <div id="tasks-normal" class="tasks-normal">
+            <h2>normais</h2>
+          </div>
+        </section>
+      </main>
+      <footer>
+        <h4>
+          <i>
+            Tenha sempre em mente, você é o responsável por atingir suas metas.
+            E você pode, corra atrás que o sucesso vem!
+          </i>
+        </h4>
+        <h5>
+          <i>
+            lebre-se sempre de voltar aqui para ver o que ainda tem para você
+            cumprir
+          </i>
+        </h5>
+        <h6><i>suas tarefas não seram perdidas ao atualizar a página</i></h6>
+      </footer>
+    </div>
+    <script src="./main.js"></script>
+  </body>
+</html>
