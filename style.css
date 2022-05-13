@@ -1,3 +1,7 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+}
 body {
   text-align: center;
   align-items: center;
@@ -5,8 +9,9 @@ body {
   background: linear-gradient(45deg, #808080, #ffffff, #808080);
   background-attachment: fixed;
   padding-inline: 5%;
-  font-family: cursive;
+  font-family: 'Arial', sans-serif;
   overflow: auto;
+  color: #000000;
 }
 li {
   list-style: none;
@@ -27,11 +32,16 @@ li {
   width: 30%;
   word-wrap: break-word;
   transition: background-color 0.5s;
+  border-radius: 5px;
 }
 .butn:hover,
 .butn:focus {
   background-color: #808080;
   cursor: pointer;
+}
+h1,
+h2 {
+  padding: 15px;
 }
 .tasks-important,
 .tasks-normal {
@@ -50,17 +60,50 @@ li {
   height: auto;
   margin-bottom: 10px;
   word-wrap: break-word;
+  padding-top: 5px;
+}
+.conteiner-footer-task {
+  border-top: 0.5px solid #d0cfcf;
+  padding: 0 5px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 5px 0;
+  flex-wrap: wrap;
+  word-break: break-all;
+}
+label {
+  align-self: flex-end;
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+}
+.check-box {
+  width: 19px;
+  height: 19px;
+}
+.icons {
+  padding-top: 4px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 img {
   height: 20px;
   height: 1.25rem;
-  border-radius: 5px;
+  border-radius: 4px;
   background-color: #ffffff;
 }
-.icons {
-  border-top: 0.5px solid #d0cfcf;
-  margin: 3px 0px 1px 0px;
-  padding-top: 4px;
+.date {
+  letter-spacing: 0.1rem;
+}
+.task-done {
+  background-color: lime;
+}
+h4,
+h5,
+h6 {
+  margin-block: 2rem;
 }
 @media (min-width: 1100px) {
   .wrapper {
