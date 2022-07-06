@@ -25,6 +25,7 @@ li {
   text-align: center;
   font-weight: bolder;
   outline: 0;
+  font-size: 1rem;
 }
 .butn {
   margin-bottom: 3px;
@@ -73,32 +74,37 @@ h2 {
   word-break: break-all;
 }
 label {
-  align-self: flex-end;
   display: flex;
   flex-direction: row-reverse;
   align-items: center;
+  justify-content: center;
+  flex: 1;
 }
 .check-box {
   width: 19px;
   height: 19px;
+  cursor: pointer;
 }
 .icons {
   padding-top: 4px;
   display: flex;
   justify-content: center;
   align-items: center;
+  flex: 1;
 }
 img {
   height: 20px;
   height: 1.25rem;
   border-radius: 4px;
   background-color: #ffffff;
+  cursor: pointer;
 }
 .date {
-  letter-spacing: 0.1rem;
+  flex: 1;
 }
 .task-done {
   background-color: lime;
+  font-style: italic;
 }
 h4,
 h5,

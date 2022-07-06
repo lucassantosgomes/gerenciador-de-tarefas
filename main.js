@@ -1,180 +1,183 @@
-'use strict'
-const btnImportante = document.getElementById('important')
-const btnNormal = document.getElementById('normal')
+'use strict';
+const btnImportante = document.getElementById('important');
+const btnNormal = document.getElementById('normal');
+const inputTask = document.getElementById('write-task');
+const idExisting = [];
+const semana = [
+  'Domingo',
+  'Segunda',
+  'Terça',
+  'Quarta',
+  'Quinta',
+  'Sexta',
+  'Sábado'
+];
+function taskInLocalStorage() {
+  for (let i = 0; i <= 200; i++) {
+    localStorage.removeItem(i);
+    const keyTask = `task${i}`;
+    const taskStorage = localStorage.getItem(keyTask);
+    if (taskStorage) {
+      const taskStorageObj = JSON.parse(taskStorage)
+      idExisting.push(taskStorageObj.id);
+      addTask(taskStorageObj);
+    }
+  }
+}
+taskInLocalStorage();
+function randomIdGenerator() {
+  let randomId = Math.floor(Math.random() * 200 + 1);
+  if (idExisting.includes(randomId)) randomIdGenerator();
+  idExisting.push(randomId);
+  return randomId;
+}
+function getDate() {
+  const date = new Date();
+  return `${semana[date.getDay()]}, ${date.getDate()}/${date.getMonth() + 1}`;
+}
+class PropsTask {
+  constructor(level, text) {
+    (this.level = level),
+      (this.text = text),
+      (this.date = getDate()),
+      (this.done = false),
+      (this.id = randomIdGenerator());
+  }
+}
 btnImportante.addEventListener('click', () => {
-  const inputValue = getValue()
-  addTask('important', inputValue)
-})
+  if (!inputTask.value) return;
+  const datasTasks = new PropsTask('important', inputTask.value);
+  localStorage.setItem(`task${datasTasks.id}`, JSON.stringify(datasTasks));
+  console.log(datasTasks);
+  addTask(datasTasks);
+});
 btnNormal.addEventListener('click', () => {
-  const inputValue = getValue()
-  addTask('normal', inputValue)
-})
-const obj = {
-  idExisting: []
-}
-for (let i = 0; i <= 200; i++) {
-  if (localStorage.getItem(i)) {
-    obj.idExisting.push(i)
-    replaceTextCreateTaskStoredLocal(i)
-  }
-}
-function replaceTextCreateTaskStoredLocal(key) {
-  let storedText = localStorage.getItem(key)
-  if (storedText.includes('imptt')) {
-    storedText = storedText.replace('imptt', '')
-    if (storedText.includes(' dn')) {
-      storedText = storedText.replace(' dn', '')
-      addTask('important', storedText, key)
-      taskDone(key)
-    } else addTask('important', storedText, key)
-  } else {
-    if (storedText.includes(' dn')) {
-      storedText = storedText.replace(' dn', '')
-      addTask('normal', storedText, key)
-      taskDone(key)
-    } else addTask('normal', storedText, key)
-  }
-}
-function getValue() {
-  return document.getElementById('write-task').value
-}
+  if (!inputTask.value) return;
+  const datasTasks = new PropsTask('normal', inputTask.value);
+  localStorage.setItem(`task${datasTasks.id}`, JSON.stringify(datasTasks));
+  console.log(datasTasks);
+  addTask(datasTasks);
+});
 function createElementHTML(stringElement) {
-  const elemento = document.createElement(stringElement)
-  return elemento
+  const elemento = document.createElement(stringElement);
+  return elemento;
 }
-function addTask(level, inputValue, identification) {
-  if (inputValue.length > 0) {
-    let randomId
-    if (!identification) {
-      randomId = randomIdGenerator()
-      level === 'important'
-        ? localStorage.setItem(randomId, inputValue + ' imptt')
-        : localStorage.setItem(randomId, inputValue)
-    } else randomId = identification
-    let taskLevel = document.getElementById('tasks-' + level)
-    let task = createElementHTML('li')
-    task.classList.add('task')
-    const textTask = createElementHTML('p')
-    document.getElementById('write-task').value = ''
-    task.id = randomId
-    let footerTask = addFooterTask(randomId)
-    textTask.id = randomId + 'text'
-    textTask.textContent = inputValue
-    task.appendChild(textTask)
-    task.appendChild(footerTask)
-    taskLevel.appendChild(task)
-  }
+function addTask(data) {
+  let taskLevel = document.getElementById('tasks-' + data.level);
+  let task = createElementHTML('li');
+  task.classList.add('task');
+  if(data.done)task.classList.add('task-done');
+  const textTask = createElementHTML('p');
+  document.getElementById('write-task').value = '';
+  task.id = data.id;
+  let footerTask = addFooterTask(data);
+  textTask.id = data.id + 'text';
+  textTask.textContent = data.text;
+  task.appendChild(textTask);
+  task.appendChild(footerTask);
+  taskLevel.appendChild(task);
 }
-function addFooterTask(taskId) {
-  const conteinerFooter = createElementHTML('div')
-  conteinerFooter.classList.add('conteiner-footer-task')
-  const checkBox = addCheckBox(taskId)
-  conteinerFooter.appendChild(checkBox)
-  const icons = addIcnos(taskId)
-  conteinerFooter.appendChild(icons)
-  const date = addDate()
-  conteinerFooter.appendChild(date)
-  return conteinerFooter
+function addFooterTask(dataTask) {
+  const conteinerFooter = createElementHTML('div');
+  conteinerFooter.classList.add('conteiner-footer-task');
+  const checkBox = addCheckBox(dataTask);
+  conteinerFooter.appendChild(checkBox);
+  const icons = addIcnos(dataTask);
+  conteinerFooter.appendChild(icons);
+  const getDate = addDate(dataTask.date);
+  conteinerFooter.appendChild(getDate);
+  return conteinerFooter;
 }
-function addIcnos(taskId) {
-  const icons = createElementHTML('div')
-  icons.classList.add('icons')
-  const trash = addIconTrash(taskId)
-  icons.appendChild(trash)
-  const edit = addIconEdit(taskId)
-  icons.appendChild(edit)
-  const arrowsUpDown = addIconArrows(taskId)
-  icons.appendChild(arrowsUpDown)
-  return icons
+function addIcnos(dataTask) {
+  const icons = createElementHTML('div');
+  icons.classList.add('icons');
+  const trash = addIconTrash(dataTask.id);
+  icons.appendChild(trash);
+  const edit = addIconEdit(dataTask.id);
+  icons.appendChild(edit);
+  const arrowsUpDown = addIconArrows(dataTask);
+  icons.appendChild(arrowsUpDown);
+  return icons;
 }
-
-function addCheckBox(taskId) {
-  const labelCheck = createElementHTML('label')
-  labelCheck.textContent = 'feito'
-  const checkBox = createElementHTML('input')
-  checkBox.type = 'checkbox'
-  checkBox.title = 'okay'
-  checkBox.id = 'checkBox' + taskId
-  checkBox.classList.add('check-box')
+function addCheckBox(dataTask) {
+  const labelCheck = createElementHTML('label');
+  labelCheck.textContent = 'feito';
+  const checkBox = createElementHTML('input');
+  checkBox.type = 'checkbox';
+  checkBox.title = 'okay';
+  checkBox.id = 'checkBox' + dataTask.id;
+  checkBox.classList.add('check-box');
+  checkBox.checked = dataTask.done;
   checkBox.addEventListener('change', () =>
-    checkBox.checked ? taskDone(taskId) : noTaskDone(taskId)
-  )
-  labelCheck.appendChild(checkBox)
-  return labelCheck
+    checkBox.checked ? taskDone(dataTask) : noTaskDone(dataTask)
+  );
+  labelCheck.appendChild(checkBox);
+  return labelCheck;
 }
 function addIconTrash(taskId) {
-  const trash = createElementHTML('img')
-  trash.src = './imagens/icone-lixeira.png'
-  trash.alt = 'icone lixeira'
-  trash.title = 'apagar'
+  const trash = createElementHTML('img');
+  trash.src = './imagens/icone-lixeira.png';
+  trash.alt = 'icone lixeira';
+  trash.title = 'apagar';
   trash.addEventListener('click', () => {
-    const task = document.getElementById(taskId)
-    obj.idExisting.splice(obj.idExisting.indexOf(taskId), 1)
-    task.parentNode.removeChild(task)
-    localStorage.removeItem(taskId)
-  })
-  return trash
+    const task = document.getElementById(taskId);
+    idExisting.splice(idExisting.indexOf(taskId), 1);
+    task.parentNode.removeChild(task);
+    localStorage.removeItem(`task${taskId}`);
+  });
+  return trash;
 }
 function addIconEdit(taskId) {
-  const edit = document.createElement('img')
-  edit.src = './imagens/icone-editar.png'
-  edit.alt = 'icone editar'
-  edit.title = 'editar'
+  const edit = document.createElement('img');
+  edit.src = './imagens/icone-editar.png';
+  edit.alt = 'icone editar';
+  edit.title = 'editar';
   edit.addEventListener('click', () => {
-    const task = document.getElementById(taskId)
-    const textTask = document.getElementById(taskId + 'text').textContent
-    document.getElementById('write-task').value = textTask
-    task.parentNode.removeChild(task)
-    localStorage.removeItem(taskId)
-  })
-  return edit
+    const task = document.getElementById(taskId);
+    const textTask = document.getElementById(taskId + 'text').textContent;
+    document.getElementById('write-task').value = textTask;
+    task.parentNode.removeChild(task);
+    localStorage.removeItem(`task${taskId}`);
+  });
+  return edit;
 }
-function addIconArrows(taskId) {
-  const arrowsUpDown = document.createElement('img')
-  arrowsUpDown.src = './imagens/icone-setas.png'
-  arrowsUpDown.alt = 'icone setas'
-  arrowsUpDown.title = 'mudar nivel'
+function addIconArrows(dataTask) {
+  const arrowsUpDown = document.createElement('img');
+  arrowsUpDown.src = './imagens/icone-setas.png';
+  arrowsUpDown.alt = 'icone setas';
+  arrowsUpDown.title = 'mudar nivel';
   arrowsUpDown.addEventListener('click', () => {
-    const task = document.getElementById(taskId)
-    const elementPai = task.parentNode
-    elementPai.id === 'tasks-important'
-      ? document.getElementById('tasks-normal').appendChild(task)
-      : document.getElementById('tasks-important').appendChild(task)
-  })
-  return arrowsUpDown
+    const task = document.getElementById(dataTask.id);
+    const elementPai = task.parentNode;
+    if (elementPai.id === 'tasks-important'){
+      document.getElementById('tasks-normal').appendChild(task)
+      dataTask.level = 'normal';
+      localStorage.setItem(`task${dataTask.id}`, JSON.stringify(dataTask));
+    }else{
+      document.getElementById('tasks-important').appendChild(task);
+      dataTask.level = 'important';
+      localStorage.setItem(`task${dataTask.id}`, JSON.stringify(dataTask));
+    }
+  });
+  return arrowsUpDown;
 }
-function addDate() {
-  const nowDate = new Date()
-  const date = createElementHTML('p')
-  date.classList.add('date')
-  date.textContent = `${nowDate.getDate()}/${nowDate.getMonth() + 1}`
-  return date
+function addDate(date) {
+  const dateP = createElementHTML('p');
+  dateP.classList.add('date');
+  dateP.textContent = date;
+  return dateP;
 }
-function randomIdGenerator() {
-  let randomId = Math.floor(Math.random() * 200 + 1)
-  if (obj.idExisting.length > 0) {
-    for (let i = 0; i <= obj.idExisting.length; i++)
-      if (obj.idExisting[i] === randomId) randomIdGenerator()
-    obj.idExisting.push(randomId)
-    return randomId
-  }
-  obj.idExisting.push(randomId)
-  return randomId
+function taskDone(dataTask) {
+  const task = document.getElementById(dataTask.id);
+  task.classList.add('task-done');
+  const checkbox = document.querySelector(`#checkBox${dataTask.id}`);
+  checkbox.checked = true;
+  dataTask.done = true;
+  localStorage.setItem(`task${dataTask.id}`, JSON.stringify(dataTask));
 }
-function taskDone(taskId) {
-  const task = document.getElementById(taskId)
-  task.classList.add('task-done')
-  let textTask = localStorage.getItem(taskId)
-  if (!textTask.includes(' dn')) {
-    localStorage.setItem(taskId, `${textTask} dn`)
-  }
-  let checkbox = document.querySelector(`#checkBox${taskId}`)
-  checkbox.checked = true
-}
-function noTaskDone(taskId) {
-  const task = document.getElementById(taskId)
-  task.classList.remove('task-done')
-  let textTask = localStorage.getItem(taskId)
-  textTask = textTask.replace(' dn', '')
-  localStorage.setItem(taskId, textTask)
+function noTaskDone(dataTask) {
+  const task = document.getElementById(dataTask.id);
+  task.classList.remove('task-done');
+  dataTask.done = false;
+  localStorage.setItem(`task${dataTask.id}`, JSON.stringify(dataTask));
 }
