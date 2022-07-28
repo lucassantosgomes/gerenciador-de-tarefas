@@ -8,13 +8,59 @@ body {
   height: auto;
   background: linear-gradient(45deg, #808080, #ffffff, #808080);
   background-attachment: fixed;
-  padding-inline: 5%;
+
   font-family: 'Arial', sans-serif;
   overflow: auto;
   color: #000000;
 }
+
+header {
+  background-color: gray;
+  width: 100%;
+  height: 50px;
+  margin-bottom: 10px;
+}
+.wrapp-header {
+  width: 100%;
+  padding-inline: 5%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+h1 {
+  font-size: 1.2rem;
+  display: inline;
+}
+.label-add-task {
+  width: 50px;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+}
+.add-task {
+  width: 45px;
+  height: 45px;
+  padding: 0;
+
+  border: none;
+}
+.checkbox-add-task {
+  display: none;
+}
+.checkbox-add-task:checked + label {
+  transform: rotate(45deg);
+}
 li {
   list-style: none;
+}
+.wrapper {
+  width: 100%;
+  padding-inline: 5%;
+}
+#section-inputs-task{
+  display: none;
 }
 .write-task {
   height: auto;
@@ -30,7 +76,7 @@ li {
 .butn {
   margin-bottom: 3px;
   border: solid 1px black;
-  width: 30%;
+  width: 49%;
   word-wrap: break-word;
   transition: background-color 0.5s;
   border-radius: 5px;
@@ -40,7 +86,6 @@ li {
   background-color: #808080;
   cursor: pointer;
 }
-h1,
 h2 {
   padding: 15px;
 }
@@ -73,7 +118,7 @@ h2 {
   flex-wrap: wrap;
   word-break: break-all;
 }
-label {
+.conteiner-footer-task label {
   display: flex;
   flex-direction: row-reverse;
   align-items: center;
@@ -81,8 +126,8 @@ label {
   flex: 1;
 }
 .check-box {
-  width: 19px;
-  height: 19px;
+  width: 17px;
+  height: 17px;
   cursor: pointer;
 }
 .icons {
@@ -92,11 +137,9 @@ label {
   align-items: center;
   flex: 1;
 }
-img {
-  height: 20px;
+.icons img {
   height: 1.25rem;
   border-radius: 4px;
-  background-color: #ffffff;
   cursor: pointer;
 }
 .date {
@@ -110,7 +153,16 @@ h4,
 h5,
 h6 {
   margin-block: 2rem;
+
 }
+footer{
+  background-color: gray;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  margin-top: 10px;
+}
+
 @media (min-width: 1100px) {
   .wrapper {
     width: 1000px;

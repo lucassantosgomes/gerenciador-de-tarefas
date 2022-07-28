@@ -12,12 +12,18 @@
     />
   </head>
   <body>
+    <header>
+      <div class="wrapp-header wrapper">
+        <h1>GERENCIADOR de TAREFAS</h1>
+        <input type="checkbox" name="" id="checkbox-add-task" class="checkbox-add-task">
+        <label class="label-add-task" for="checkbox-add-task">    
+            <img class="add-task" src="./imagens/add-circle-outline.svg" alt="icone de um circulo com o mais no meio, adicionar">
+        </label>
+      </div>
+    </header>
     <div class="wrapper">
-      <header>
-        <h1>Crie e gerencie suas tarefas aqui facilmente</h1>
-      </header>
       <main>
-        <section>
+        <section id="section-inputs-task">
           <div>
             <textarea
               placeholder="digite e escolha uma opção abaixo"
@@ -38,22 +44,24 @@
           </div>
         </section>
       </main>
-      <footer>
-        <h4>
-          <i>
-            Tenha sempre em mente, você é o responsável por atingir suas metas.
-            E você pode, corra atrás que o sucesso vem!
-          </i>
-        </h4>
-        <h5>
-          <i>
-            lebre-se sempre de voltar aqui para ver o que ainda tem para você
-            cumprir
-          </i>
-        </h5>
-        <h6><i>suas tarefas não seram perdidas ao atualizar a página</i></h6>
-      </footer>
     </div>
+      <footer>
+        <div class="wrapper">
+          <h4>
+            <i>
+              Tenha sempre em mente, você é o responsável por atingir suas metas.
+              E você pode, corra atrás que o sucesso vem!
+            </i>
+          </h4>
+          <h5>
+            <i>
+              lebre-se sempre de voltar aqui para ver o que ainda tem para você
+              cumprir
+            </i>
+          </h5>
+          <h6><i>suas tarefas não seram perdidas ao atualizar a página</i></h6>
+        </div>
+      </footer>
     <script src="./main.js"></script>
   </body>
 </html>

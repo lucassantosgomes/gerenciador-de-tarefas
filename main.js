@@ -2,6 +2,8 @@
 const btnImportante = document.getElementById('important');
 const btnNormal = document.getElementById('normal');
 const inputTask = document.getElementById('write-task');
+const checkboxAddTask = document.getElementById('checkbox-add-task');
+const sectionAddTask = document.getElementById('section-inputs-task');
 const idExisting = [];
 const semana = [
   'Domingo',
@@ -18,7 +20,7 @@ function taskInLocalStorage() {
     const keyTask = `task${i}`;
     const taskStorage = localStorage.getItem(keyTask);
     if (taskStorage) {
-      const taskStorageObj = JSON.parse(taskStorage)
+      const taskStorageObj = JSON.parse(taskStorage);
       idExisting.push(taskStorageObj.id);
       addTask(taskStorageObj);
     }
@@ -58,6 +60,11 @@ btnNormal.addEventListener('click', () => {
   console.log(datasTasks);
   addTask(datasTasks);
 });
+checkboxAddTask.addEventListener('change', () => {
+  checkboxAddTask.checked
+    ? (sectionAddTask.style.display = 'block')
+    : (sectionAddTask.style.display = 'none');
+});
 function createElementHTML(stringElement) {
   const elemento = document.createElement(stringElement);
   return elemento;
@@ -66,7 +73,7 @@ function addTask(data) {
   let taskLevel = document.getElementById('tasks-' + data.level);
   let task = createElementHTML('li');
   task.classList.add('task');
-  if(data.done)task.classList.add('task-done');
+  if (data.done) task.classList.add('task-done');
   const textTask = createElementHTML('p');
   document.getElementById('write-task').value = '';
   task.id = data.id;
@@ -116,7 +123,7 @@ function addCheckBox(dataTask) {
 }
 function addIconTrash(taskId) {
   const trash = createElementHTML('img');
-  trash.src = './imagens/icone-lixeira.png';
+  trash.src = './imagens/trash-outline.svg';
   trash.alt = 'icone lixeira';
   trash.title = 'apagar';
   trash.addEventListener('click', () => {
@@ -129,7 +136,7 @@ function addIconTrash(taskId) {
 }
 function addIconEdit(taskId) {
   const edit = document.createElement('img');
-  edit.src = './imagens/icone-editar.png';
+  edit.src = './imagens/create-outline.svg';
   edit.alt = 'icone editar';
   edit.title = 'editar';
   edit.addEventListener('click', () => {
@@ -143,17 +150,17 @@ function addIconEdit(taskId) {
 }
 function addIconArrows(dataTask) {
   const arrowsUpDown = document.createElement('img');
-  arrowsUpDown.src = './imagens/icone-setas.png';
+  arrowsUpDown.src = './imagens/swap-vertical-outline.svg';
   arrowsUpDown.alt = 'icone setas';
   arrowsUpDown.title = 'mudar nivel';
   arrowsUpDown.addEventListener('click', () => {
     const task = document.getElementById(dataTask.id);
     const elementPai = task.parentNode;
-    if (elementPai.id === 'tasks-important'){
-      document.getElementById('tasks-normal').appendChild(task)
+    if (elementPai.id === 'tasks-important') {
+      document.getElementById('tasks-normal').appendChild(task);
       dataTask.level = 'normal';
       localStorage.setItem(`task${dataTask.id}`, JSON.stringify(dataTask));
-    }else{
+    } else {
       document.getElementById('tasks-important').appendChild(task);
       dataTask.level = 'important';
       localStorage.setItem(`task${dataTask.id}`, JSON.stringify(dataTask));
